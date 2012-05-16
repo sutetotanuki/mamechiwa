@@ -67,5 +67,10 @@ describe Mamechiwa do
         @group.options.group_2_attr_1
       }.should raise_error NoMethodError
     end
+
+    it "should invalid if unregistered group type" do
+      @group.group_type = "group3"
+      @group.should_not be_valid
+    end
   end
 end

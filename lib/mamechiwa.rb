@@ -28,7 +28,10 @@ module Mamechiwa
         define_method :initialize_with_mame do
           unless @mame_embedded
             group = self.class.mame_group_field.size > 0 ?  self.send(self.class.mame_group_field).to_s : ""
-            @mame_embedded = self.class.mame_config[group][:class].new(self, field)
+
+            if self.class.mame_config[group] && self.class.mame_config[group][:class]
+              @mame_embedded = self.class.mame_config[group][:class].new(self, field)
+            end
           end
         end
         
@@ -42,10 +45,14 @@ module Mamechiwa
 
         define_method :mame_validator do
           initialize_with_mame
-          
-          if !@mame_embedded.valid?
-            @mame_embedded.errors.each do |k, v|
-              errors.add("#{field}[#{k}]", v)
+
+          unless @mame_embedded
+            errors.add("#{field}", "#{self.class.mame_group_field} is unregistered type.")
+          else
+            if !@mame_embedded.valid?
+              @mame_embedded.errors.each do |k, v|
+                errors.add("#{field}[#{k}]", v)
+              end
             end
           end
         end

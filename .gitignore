@@ -1,0 +1,9 @@
+.bundle
+vendor
+Gemfile.lock
+
+.DS_Store
+*~
+\#*
+.\#*
+*.gem

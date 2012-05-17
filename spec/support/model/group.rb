@@ -18,6 +18,8 @@ class Group < ActiveRecord::Base
       end
     end
 
+    mame_group "no_attr_group"
+
     mattr :group_1_attr
   end
 end

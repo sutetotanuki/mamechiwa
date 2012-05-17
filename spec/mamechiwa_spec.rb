@@ -72,5 +72,10 @@ describe Mamechiwa do
       @group.group_type = "group3"
       @group.should_not be_valid
     end
+
+    it "should valid with group that has no attributes" do
+      @group.group_type = "no_attr_group"
+      @group.should be_valid
+    end
   end
 end

@@ -71,7 +71,9 @@ module Mamechiwa
 
     def mame_group(name)
       self.mame_scope = name
-      yield self
+      mame_config[mame_scope][:attrs] ||= []
+      mame_config[mame_scope][:validator] = Proc.new{ }
+      yield self if block_given?
       self.mame_scope = ""
     end
 

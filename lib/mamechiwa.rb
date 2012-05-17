@@ -27,7 +27,7 @@ module Mamechiwa
       class_eval do
         define_method :initialize_with_mame do
           unless @mame_embedded
-            group = self.class.mame_group_field.size > 0 ?  self.send(self.class.mame_group_field).to_s : ""
+            group = self.class.mame_group_field.length > 0 ?  self.send(self.class.mame_group_field).to_s : ""
 
             if self.class.mame_config[group] && self.class.mame_config[group][:class]
               @mame_embedded = self.class.mame_config[group][:class].new(self, field)

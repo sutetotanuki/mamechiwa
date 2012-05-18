@@ -37,6 +37,11 @@ describe Mamechiwa do
     @mame.options.name.should eq "abc"
   end
 
+  it "should invalid if unregistered attribute" do
+    @mame = MamechiwaTest.new(options: { "name" => "name", "unregistered" => "bbc"} )
+    @mame.should_not be_valid
+  end
+
   describe "as_json" do
     it "should include the defined option" do
       @mame.options.name = "aa"

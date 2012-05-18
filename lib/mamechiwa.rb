@@ -59,6 +59,12 @@ module Mamechiwa
           unless @mame_embedded
             errors.add("#{field}", "#{self.class.mame_group_field} is unregistered type.")
           else
+            if (unregistered_attributes = (@mame_embedded.keys.map(&:to_sym) - @mame_embedded.mame_attrs)).size > 0
+              unregistered_attributes.each do |unregistered_attribute|
+                errors.add("#{field}[#{unregistered_attribute}]", "is unregistered attribute.")
+              end
+            end
+            
             if !@mame_embedded.valid?
               @mame_embedded.errors.each do |k, v|
                 errors.add("#{field}[#{k}]", v)

@@ -25,6 +25,18 @@ describe Mamechiwa do
     @fetched.options.value.should eq "kawaii"
   end
 
+  it "should include name if present at initilizer" do
+    @mame = MamechiwaTest.new(options: '{"name" : "abc"}')
+    @mame.save!
+    @mame.options.name.should_not be_nil
+  end
+
+  it "should include parameter if present hash" do
+    @mame = MamechiwaTest.new(options: {"name" => "abc"})
+    @mame.save!
+    @mame.options.name.should eq "abc"
+  end
+
   describe "as_json" do
     it "should include the defined option" do
       @mame.options.name = "aa"

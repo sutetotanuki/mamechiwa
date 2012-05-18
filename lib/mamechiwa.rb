@@ -34,6 +34,16 @@ module Mamechiwa
             end
           end
         end
+
+        define_method "#{field}=" do |value|
+          if value.is_a?(Hash)
+            write_attribute("#{field}", value.to_json)
+          else
+            write_attribute("#{field}", value)
+          end
+          
+          initialize_with_mame
+        end
         
         define_method "#{field}" do
           initialize_with_mame
@@ -93,10 +103,10 @@ module Mamechiwa
           @mame_parent = parent
           @mame_parent_field = field
 
-          value = @mame_parent.send(:[], @mame_parent_field)
+          value = @mame_parent.send(:read_attribute, @mame_parent_field)
 
           mame_attrs.each do |attr|
-            self[attr.to_s] = nil
+            self.old_set(attr.to_s, nil)
           end
 
           if value

@@ -102,7 +102,7 @@ module Mamechiwa
         end
 
         def self.name
-          "mamechiwa_embedded"
+          "MameciwaEmbedded"
         end
         
         def initialize(parent, field)

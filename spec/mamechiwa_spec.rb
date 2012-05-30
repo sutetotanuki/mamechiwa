@@ -42,6 +42,20 @@ describe Mamechiwa do
     @mame.should_not be_valid
   end
 
+  it "should keep assigned values with assing_attributes if present hash" do
+    @mame = MamechiwaTest.new(options: { "name" => "name", "unregistered" => "bbc"} )
+    @mame.assign_attributes({options: {"value" => "changed"}})
+    @mame.options.value.should eq "changed"
+    @mame.options.name.should eq "name"
+  end
+
+  it "should keep assigned values with assing_attributes if present JSON string" do
+    @mame = MamechiwaTest.new(options: { "name" => "name", "unregistered" => "bbc"} )
+    @mame.assign_attributes({options: '{"value": "changed"}'})
+    @mame.options.value.should eq "changed"
+    @mame.options.name.should eq "name"
+  end
+  
   describe "as_json" do
     it "should include the defined option" do
       @mame.options.name = "aa"

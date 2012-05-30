@@ -36,13 +36,13 @@ module Mamechiwa
         end
 
         define_method "#{field}=" do |value|
-          if value.is_a?(Hash)
-            write_attribute("#{field}", value.to_json)
-          else
-            write_attribute("#{field}", value)
-          end
-          
           initialize_with_mame
+
+          hash = value
+          hash = ActiveSupport::JSON.decode(value) if value.is_a?(String)
+          write_attribute("#{field}", @mame_embedded.merge(hash).to_json)
+
+          @mame_embedded.refresh
         end
         
         define_method "#{field}" do
@@ -109,6 +109,10 @@ module Mamechiwa
           @mame_parent = parent
           @mame_parent_field = field
 
+          refresh
+        end
+
+        def refresh
           value = @mame_parent.send(:read_attribute, @mame_parent_field)
 
           mame_attrs.each do |attr|

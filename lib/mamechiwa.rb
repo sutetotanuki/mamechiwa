@@ -38,6 +38,12 @@ module Mamechiwa
         define_method "#{field}=" do |value|
           initialize_with_mame
 
+          unless value
+            write_attribute("#{field}", "{}")
+            @mame_embedded.refresh if @mame_embedded
+            return
+          end
+
           hash = value
           hash = ActiveSupport::JSON.decode(value) if value.is_a?(String)
 

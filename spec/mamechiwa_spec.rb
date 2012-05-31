@@ -56,6 +56,12 @@ describe Mamechiwa do
     @mame.options.name.should eq "name"
   end
 
+  it "should assigned successfully when present nil" do
+    @mame = MamechiwaTest.new(options: { "name" => "aaaa"})
+    @mame.options = nil
+    @mame.options.name.should be_nil
+  end
+
   describe "as_json" do
     it "should include the defined option" do
       @mame.options.name = "aa"

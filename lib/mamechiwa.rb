@@ -40,9 +40,13 @@ module Mamechiwa
 
           hash = value
           hash = ActiveSupport::JSON.decode(value) if value.is_a?(String)
-          write_attribute("#{field}", @mame_embedded.merge(hash).to_json)
 
-          @mame_embedded.refresh
+          if @mame_embedded
+            write_attribute("#{field}", @mame_embedded.merge(hash).to_json)
+            @mame_embedded.refresh
+          else
+            write_attribute("#{field}", hash.to_json)
+          end
         end
         
         define_method "#{field}" do

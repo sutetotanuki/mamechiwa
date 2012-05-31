@@ -10,11 +10,21 @@ ActiveRecord::Base.establish_connection('adapter' => 'mysql2', 'database' => 'ma
 
 Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each { |f| require f }
 
-CreateMamechiwaTests.down rescue ActiveRecord::StatementInvalid
-CreateMamechiwaTests.up
+# CreateMamechiwaTests.down rescue ActiveRecord::StatementInvalid
+# CreateMamechiwaTests.up
 
-CreateGroups.down rescue ActiveRecord::StatementInvalid
-CreateGroups.up
+# CreateGroups.down rescue ActiveRecord::StatementInvalid
+# CreateGroups.up
+
+# CreateGroups.down rescue ActiveRecord::StatementInvalid
+# CreateGroups.up
+
+Dir[File.join(File.dirname(__FILE__), "support/migration/*.rb")].each do |f|
+  migration_class_name = File.basename(f, ".rb").camelize
+  migration_class = self.class.const_get(migration_class_name)
+  migration_class.down rescue ActiveRecord::StatementInvalid
+  migration_class.up
+end
 
 RSpec.configure do |config|
   config.before(:suite) do

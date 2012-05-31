@@ -55,7 +55,7 @@ describe Mamechiwa do
     @mame.options.value.should eq "changed"
     @mame.options.name.should eq "name"
   end
-  
+
   describe "as_json" do
     it "should include the defined option" do
       @mame.options.name = "aa"
@@ -107,6 +107,13 @@ describe Mamechiwa do
     it "should valid with group that has no attributes" do
       @group.group_type = "no_attr_group"
       @group.should be_valid
+    end
+
+    it "should assigne sucessfully when has not specify group" do
+      @group = NoDefault.new
+      @group.options = { "value" => "abc" }
+      @group.group_type = "group"
+      @group.options.value.should eq "abc"
     end
   end
 end

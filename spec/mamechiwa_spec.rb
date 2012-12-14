@@ -62,6 +62,11 @@ describe Mamechiwa do
     @mame.options.name.should be_nil
   end
 
+  it "should assinged successfully when present blank" do
+    @mame = MamechiwaTest.new(options: "")
+    @mame.options.name.should be_nil
+  end
+
   describe "as_json" do
     it "should include the defined option" do
       @mame.options.name = "aa"

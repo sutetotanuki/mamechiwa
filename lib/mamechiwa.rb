@@ -38,7 +38,7 @@ module Mamechiwa
         define_method "#{field}=" do |value|
           initialize_with_mame
 
-          unless value
+          if value.blank?
             write_attribute("#{field}", "{}")
             @mame_embedded.refresh if @mame_embedded
             return
@@ -129,7 +129,7 @@ module Mamechiwa
             self.old_set(attr.to_s, nil)
           end
 
-          if value
+          unless value.blank?
             self.merge!(ActiveSupport::JSON.decode(value))
           end
         end
